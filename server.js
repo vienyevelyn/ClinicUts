@@ -31,9 +31,7 @@ const http = require("http");
 const fs = require("fs");
 const path = require("path");
 const url = require("url");
-const dotenv = require("dotenv");
 
-dotenv.config();
 const PORT = process.env.PORT || 3000;
 
 const server = http.createServer((req, res) => {
