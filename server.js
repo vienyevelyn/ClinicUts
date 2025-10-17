@@ -463,7 +463,8 @@ const server = http.createServer((req, res) => {
                     minDate.setFullYear(today.getFullYear() - 12);
                     if (dob > minDate) {
                         alert("Pasien harus minimal 12 tahun")
-                        return
+                        res.writeHead(302, { Location: '/profile' });
+                        res.end();
                     }
 
                     const updatesUser = {
