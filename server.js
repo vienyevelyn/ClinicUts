@@ -154,7 +154,7 @@ const server = http.createServer((req, res) => {
                         res.end(`
                             <script>
                                 alert("Pasien yang bisa mendaftar adalah 12 tahun");
-                                window.location.href = "/"; 
+                                window.location.href = "/signup"; 
                             </script>`
                         );
                         return;
@@ -482,7 +482,7 @@ const server = http.createServer((req, res) => {
                         res.end(`
                             <script>
                                 alert("Pasien yang bisa mendaftar adalah 12 tahun");
-                                window.location.href = "/"; 
+                                window.location.href = "/profile/edit"; 
                             </script>`
                         );
                         return;
@@ -588,7 +588,7 @@ const server = http.createServer((req, res) => {
                             res.end(`
                                 <script>
                                     alert("harus janjian minimal satu hari sebelumnya");
-                                    window.location.href = "/"; 
+                                    window.location.href = "/doctors"; 
                                 </script>
                             `);
                             return;
@@ -1200,7 +1200,7 @@ const server = http.createServer((req, res) => {
                         res.end(`
                             <script>
                                 alert("Pasien yang bisa mendaftar adalah 12 tahun");
-                                window.location.href = "/"; 
+                                window.location.href = "/adminpatient"; 
                             </script>`
                         );
                         return;
@@ -1256,7 +1256,7 @@ const server = http.createServer((req, res) => {
                         res.end(`
                             <script>
                                 alert("Pasien yang bisa mendaftar adalah 12 tahun");
-                                window.location.href = "/"; 
+                                window.location.href = "/adminpatient"; 
                             </script>`
                         );
                         return;
