@@ -362,6 +362,13 @@ const server = http.createServer((req, res) => {
                         res.writeHead(500, { "Content-Type": "text/plain" });
                         return res.end("Gagal mengambil view");
                     }
+                    let dateObj = new Date(patient.date_of_birth)
+
+                    let formattedDate = 
+                dateObj.getDate() + '/' + 
+                (dateObj.getMonth() + 1) + '/' + 
+                dateObj.getFullYear();
+
                     let html = data.toString();
                     html = html
                         .replace("{{first_name}}", patient.first_name)
@@ -370,7 +377,7 @@ const server = http.createServer((req, res) => {
                         .replace("{{phone_number}}", user.phone)
                         .replace("{{address}}", patient.address)
                         .replace("{{city_of_birth}}", patient.city_of_birth)
-                        .replace("{{date_of_birth}}", patient.date_of_birth)
+                        .replace("{{date_of_birth}}", formattedDate)
                         .replace("{{gender}}", patient.gender)
                         .replace("{{blood_type}}", patient.blood_type);
                     
@@ -449,6 +456,16 @@ const server = http.createServer((req, res) => {
                         res.writeHead(400, {"Content-Type": "text/plain"});
                         return res.end("Error: Semua harus diisi!");
                     } 
+                    const dob = new Date(dobInput);
+
+                    const today = new Date();
+                    const minDate = new Date();
+                    minDate.setFullYear(today.getFullYear() - 12);
+                    if (dob > minDate) {
+                        alert("Pasien harus minimal 12 tahun")
+                        return
+                    }
+
                     const updatesUser = {
                         email: formData.get("email"),
                         phone: formData.get("phone_number")
@@ -673,9 +690,9 @@ const server = http.createServer((req, res) => {
                                     <tr>
                                         <th scope="row">${i}</th>
                                         <td>${rec.id_appointment}</td>
-                                        <td>${rec.diagnosis || "-"}</td>
-                                        <td>${rec.prescription || "-"}</td>
-                                        <td>${rec.doctor_note || "-"}</td>
+                                        <td>${rec.diagnosis || "coming soon at UAS"}</td>
+                                        <td>${rec.prescription || "Coming soon at UAS"}</td>
+                                        <td>${rec.doctor_note || "Coming soon at UAS"}</td>
                                         <td>${rec.Appointment?.appointment_date || "-"}</td>
                                         <td>${doctorName}${degree}</td>
                                     </tr>
