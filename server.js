@@ -913,9 +913,9 @@ const server = http.createServer((req, res) => {
         auth.requireLogin(req, res, (userId) => {
             userController.findById(userId).then(user=>{
                 if(user.role === "admin"){
-                    fs.readFile(path.join(__dirname, "views/admin", "admindoctor.html"), (err, data) => {
+                   fs.readFile(path.join(__dirname, "views/admin", "admindoctor.html"), (err, data) => {
                         if (err) {
-                            console.log("Gagal memanggil view" + err);
+                            console.log("Gagal memanggil view");
                             res.writeHead(500, {"Content-Type":"text/plain"});
                             res.end("Gagal mengambil view");
                         } 
