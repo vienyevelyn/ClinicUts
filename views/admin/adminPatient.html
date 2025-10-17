@@ -406,17 +406,26 @@
       const editAddress = document.getElementById('editAddress');
       const editCondition = document.getElementById('editCondition');
 
+     
       editButtons.forEach(btn => {
         btn.addEventListener('click', e => {
           const id = e.target.getAttribute('data-id');
           const patient = patients.find(pt => pt.id_patient == id);
+
+           const dateObj = new Date(patient.date_of_birth)
+
+      const formattedDate = 
+  dateObj.getDate() + '/' + 
+  (dateObj.getMonth() + 1) + '/' + 
+  dateObj.getFullYear();
+
 
           editId.value = patient.id_patient;
           editFN.value = patient.first_name;
           editLN.value = patient.last_name;
           editGender.value = patient.gender;
           editCity.value = patient.city_of_birth;
-          editDOB.value = patient.date_of_birth;
+          editDOB.value = formattedDate;
           editBlood.value = patient.blood_type;
           editAddress.value = patient.address;
           editCondition.value = patient.condition;
