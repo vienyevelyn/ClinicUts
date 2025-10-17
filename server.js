@@ -962,7 +962,7 @@ const server = http.createServer((req, res) => {
                     req.on("end", ()=>{
                         const formData = querystring.parse(body);
                         console.log(body);
-                        if(formData.category === "default" || !formData.first_name || !formData.last_name ||!formData.experience | !formData.gender ||!formData.degree){
+                        if(formData.category === "default" || !formData.first_name || !formData.last_name ||!formData.experience || !formData.gender ||!formData.degree){
                             res.writeHead(400, {"Content-Type": "text/plain"});
                             return res.end("Error: Semua harus diisi!");
                         }
@@ -1003,7 +1003,7 @@ const server = http.createServer((req, res) => {
                     });
                     req.on("end", ()=> {
                         const formData = querystring.parse(body);
-                        if(formData.category === "default" || !formData.first_name || !formData.last_name ||!formData.experience | !formData.gender ||!formData.degree) {
+                        if(formData.category === "default" || !formData.first_name || !formData.last_name ||!formData.experience || !formData.gender ||!formData.degree) {
                             res.writeHead(400, {"Content-Type": "text/plain"});
                             return res.end("Error: Semua harus diisi!");
                         }
@@ -1131,7 +1131,7 @@ const server = http.createServer((req, res) => {
                     req.on("end", ()=>{
                         const formData = querystring.parse(body);
                         console.log(body);
-                        if(!formData.city_of_birth || !formData.date_of_birth || !formData.address ||  !formData.first_name || !formData.last_name  | !formData.gender || !formData.blood_type || !formData.condition){
+                        if(!formData.city_of_birth || !formData.date_of_birth || !formData.address ||  !formData.first_name || !formData.last_name  || !formData.gender || !formData.blood_type || !formData.condition){
                             res.writeHead(400, {"Content-Type": "text/plain"});
                             return res.end("Error: Semua harus diisi!");
                         }
