@@ -143,6 +143,22 @@ const server = http.createServer((req, res) => {
                         res.writeHead(400, {"Content-Type": "text/plain"});
                         return res.end("Error: Semua harus diisi!");
             }  
+            
+             const dob = new Date(formData.date_of_birth);
+
+                    const today = new Date();
+                    const minDate = new Date();
+                    minDate.setFullYear(today.getFullYear() - 12);
+                    if (dob > minDate) {
+                        res.writeHead(403, { "Content-Type": "text/html"});
+                        res.end(`
+                            <script>
+                                alert("Pasien yang bisa mendaftar adalah 12 tahun");
+                                window.location.href = "/"; 
+                            </script>`
+                        );
+                        return;
+                    }
             if (formData.password !== formData.confirmPassword) {
                 fs.readFile(path.join(__dirname, "views", "signup.html"), (err, data)=>{
                     if (err) {
@@ -469,6 +485,7 @@ const server = http.createServer((req, res) => {
                                 window.location.href = "/"; 
                             </script>`
                         );
+                        return;
                     }
 
                     const updatesUser = {
@@ -558,6 +575,23 @@ const server = http.createServer((req, res) => {
                         if(!formData.id_doctor || !formData.id_patient || !formData.appointment_date ||!formData.appointment_time){
                             res.writeHead(400, {"Content-Type": "text/plain"});
                             return res.end("Error: Semua harus diisi!");
+                        }
+                        const appointmentDate = new Date(formData.appointment_date);
+
+                        const today = new Date();
+                        today.setHours(0, 0, 0, 0);
+                        const minDate = new Date(today);
+                        minDate.setDate(today.getDate() + 1);
+
+                        if (appointmentDate < minDate) {
+                            res.writeHead(403, { "Content-Type": "text/html" });
+                            res.end(`
+                                <script>
+                                    alert("harus janjian minimal satu hari sebelumnya");
+                                    window.location.href = "/"; 
+                                </script>
+                            `);
+                            return;
                         }
 
                         try{
@@ -1156,7 +1190,21 @@ const server = http.createServer((req, res) => {
                         if(!formData.city_of_birth || !formData.date_of_birth || !formData.address ||  !formData.first_name || !formData.last_name  || !formData.gender || !formData.blood_type || !formData.condition){
                             res.writeHead(400, {"Content-Type": "text/plain"});
                             return res.end("Error: Semua harus diisi!");
-                    }  
+                    }  const dob = new Date(formData.date_of_birth);
+
+                    const today = new Date();
+                    const minDate = new Date();
+                    minDate.setFullYear(today.getFullYear() - 12);
+                    if (dob > minDate) {
+                        res.writeHead(403, { "Content-Type": "text/html"});
+                        res.end(`
+                            <script>
+                                alert("Pasien yang bisa mendaftar adalah 12 tahun");
+                                window.location.href = "/"; 
+                            </script>`
+                        );
+                        return;
+                    }
                         try{
                             userController.createUserPatient(formData).then(apt =>{
                                 console.log(apt);
@@ -1197,7 +1245,22 @@ const server = http.createServer((req, res) => {
                     if(!formData.city_of_birth || !formData.date_of_birth || !formData.address ||  !formData.first_name || !formData.last_name  || !formData.gender || !formData.blood_type || !formData.condition){
                             res.writeHead(400, {"Content-Type": "text/plain"});
                             return res.end("Error: Semua harus diisi!");
-                    }           
+                    }  
+                     const dob = new Date(formData.date_of_birth);
+
+                    const today = new Date();
+                    const minDate = new Date();
+                    minDate.setFullYear(today.getFullYear() - 12);
+                    if (dob > minDate) {
+                        res.writeHead(403, { "Content-Type": "text/html"});
+                        res.end(`
+                            <script>
+                                alert("Pasien yang bisa mendaftar adalah 12 tahun");
+                                window.location.href = "/"; 
+                            </script>`
+                        );
+                        return;
+                    }        
                     try{
                         patientController.updatePatient(formData.id_patient, formData).then(apt =>{
                             res.writeHead(302, {"Location" : "/adminpatient"});
