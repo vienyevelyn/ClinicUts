@@ -372,6 +372,13 @@
     function showPatient(data) {
       tbody.innerHTML = '';
       data.forEach(p => {
+        let dateObj = new Date(p.date_of_birth)
+
+      let formattedDate = 
+  dateObj.getDate() + '/' + 
+  (dateObj.getMonth() + 1) + '/' + 
+  dateObj.getFullYear();
+
         tbody.innerHTML += `
           <tr>
             <td>${p.id_patient}</td>
@@ -379,7 +386,7 @@
             <td>${p.last_name}</td>
             <td>${p.gender || '-'}</td>
             <td>${p.city_of_birth || '-'}</td>
-            <td>${p.date_of_birth || '-'}</td>
+            <td>${formattedDate || '-'}</td>
             <td>${p.blood_type || '-'}</td>
             <td>${p.condition}</td>
             <td>
@@ -412,9 +419,9 @@
           const id = e.target.getAttribute('data-id');
           const patient = patients.find(pt => pt.id_patient == id);
 
-           const dateObj = new Date(patient.date_of_birth)
+           let dateObj = new Date(patient.date_of_birth)
 
-      const formattedDate = 
+      let formattedDate = 
   dateObj.getDate() + '/' + 
   (dateObj.getMonth() + 1) + '/' + 
   dateObj.getFullYear();
