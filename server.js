@@ -462,9 +462,13 @@ const server = http.createServer((req, res) => {
                     const minDate = new Date();
                     minDate.setFullYear(today.getFullYear() - 12);
                     if (dob > minDate) {
-                        alert("Pasien harus minimal 12 tahun")
-                        res.writeHead(302, { Location: '/profile' });
-                        res.end();
+                        res.writeHead(403, { "Content-Type": "text/html"});
+                        res.end(`
+                            <script>
+                                alert("Pasien yang bisa mendaftar adalah 12 tahun");
+                                window.location.href = "/"; 
+                            </script>`
+                        );
                     }
 
                     const updatesUser = {
