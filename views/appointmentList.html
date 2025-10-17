@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Appointment List</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <style>
+    body {
+      background-color: #f8f9fa;
+      font-family: 'Segoe UI', sans-serif;
+      padding-top: 70px;
+    }
+
+    /* Topbar */
+    .topbar {
+      position: fixed;
+      background-color: #0E7A82;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 1050;
+    }
+
+    .btn-outline-light {
+      border: 1px solid #fff;
+      color: #fff;
+    }
+
+    .btn-outline-light:hover {
+      background-color: #0E7A82;
+      border-color: #0E7A82;
+    }
+
+    /* Sidebar */
+    .offcanvas.bg-dark {
+      background-color: #1D6C6A !important;
+    }
+    .offcanvas .nav-link {
+      color: #e9ecef;
+    }
+    .offcanvas .nav-link:hover {
+      color: #fff;
+      background-color: #006970;
+      border-radius: 5px;
+      padding-left: 10px;
+    }
+
+    /* Page Content */
+    h1 {
+      color: #0E7A82;
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .card {
+      border: none;
+      border-radius: 15px;
+      background: linear-gradient(135deg, #73cfc7, #3d9b91);
+      color: #fff;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+      transition: all 0.3s ease-in-out;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    }
+
+    .card h5 {
+      color: #fff;
+      font-weight: 600;
+    }
+
+    .card p {
+      color: #f8f9fa;
+    }
+
+    .btn-danger {
+      border-radius: 8px;
+      background-color: #C82333;
+      border: none;
+    }
+
+    .btn-danger:hover {
+      background-color: #A71D2A;
+      transform: scale(1.05);
+    }
+    #print-btn {
+      top: 300px;
+      right: 20px;
+      z-index: 1000;
+    }
+    @media print {
+      .no-print {
+        display: none !important;
+      }
+
+    }
+  </style>
+</head>
+
+<body class="bg-light">
+
+  <div class="container-fluid">
+    <div class="row">
+
+      <!-- Top Bar -->
+      <div class="topbar">
+        <div class="col-12 p-3 text-white d-flex justify-content-between align-items-center">
+          <h4 class="mb-0">Appointment List</h4>
+          <button class="btn btn-outline-light" data-bs-toggle="offcanvas" data-bs-target="#sidebar" aria-controls="sidebar">
+            ☰ Menu
+          </button>
+        </div>
+      </div>
+
+     
+
+      <!-- Sidebar -->
+      <div class="offcanvas offcanvas-start bg-dark text-white d-flex flex-column" tabindex="-1" id="sidebar">
+        <div class="offcanvas-header">
+          <h5 class="offcanvas-title">Menu</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"></button>
+        </div>
+
+        <div class="offcanvas-body d-flex flex-column flex-grow-1">
+          <ul class="nav flex-column mb-auto">
+            <li class="nav-item mb-2"><a href="/home" class="nav-link text-white">🏠Home</a></li>
+            <li class="nav-item mb-2"><a href="/profile" class="nav-link text-white">🧍 Profile</a></li>
+            <li class="nav-item mb-2"><a href="/doctors" class="nav-link text-white">👨‍⚕️ Doctors</a></li>
+            <li class="nav-item mb-2"><a href="/appointmentlist" class="nav-link text-white">📋 Appointment List</a></li>
+            <li class="nav-item mb-2"><a href="/medicalrecord" class="nav-link text-white">📅 Medical Record</a></li>
+          </ul>
+
+          <div class="mt-auto">
+            <a href="/logout" class="btn btn-danger w-100">Log Out</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Main Content -->
+      <div class="col-12 p-4">
+
+       
+        <h1>Appointment List</h1>
+
+        <div id="card-list" class="row g-3">
+          <!-- Appointment cards will be generated here -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+    const apt = JSON.parse('<!--APPOINTMENT_DATA-->');
+    const container = document.getElementById("card-list");
+
+    if (apt.length === 0) {
+      container.innerHTML = `<p class="text-center text-muted mt-4">No appointments found.</p>`;
+    } else {
+      apt.forEach(elm => {
+        container.innerHTML += `
+          <div class="col-12 col-md-6">
+            <div class="card shadow-sm p-3">
+              <div class="card-body">
+                <h5 class="card-title mb-2">Dr. ${elm.Doctor.first_name} ${elm.Doctor.last_name}</h5>
+                <p class="mb-1"><strong>Appointment ID:</strong> ${elm.id_appointment}</p>
+                <p class="mb-1"><strong>Queue:</strong> ${elm.queue}</p>
+                <p class="mb-1"><strong>Date:</strong> ${elm.appointment_date}</p>
+                <p class="mb-1"><strong>Time:</strong> ${elm.appointment_time}</p>
+                <p class="mb-1"><strong>Complaint:</strong> ${elm.patient_note}</p>
+                <div class="mt-3 text-end">
+                  <a href="/appointmentlist/delete/${elm.id_appointment}" class="btn btn-danger btn-sm">Cancel Appointment</a>
+                </div>
+              </div>
+            </div>
+          </div>`;
+      });
+    }
+  </script>
+
+</body>
+</html>

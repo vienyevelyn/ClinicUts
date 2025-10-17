@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Admin Appointment</title>
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+  />
+
+  <style>
+    body {
+      background-color: #f8f9fa;
+      font-family: 'Segoe UI', sans-serif;
+      padding-top: 70px;
+    }
+
+    /* Topbar */
+    .topbar {
+      position: fixed;
+      background-color: #0E7A82;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 1050;
+    }
+
+
+    .btn-outline-light {
+      border: 1px solid #fff;
+      color: #fff;
+    }
+
+    .btn-outline-light:hover {
+      background-color: #0E7A82;
+      border-color: #0E7A82;
+    }
+
+    /* Sidebar */
+    .offcanvas.bg-dark {
+      background-color: #1D6C6A !important;
+    }
+
+    .offcanvas .nav-link {
+      color: #e9ecef;
+      transition: all 0.2s;
+    }
+
+    .offcanvas .nav-link:hover {
+      color: #fff;
+      background-color: #006970;
+      border-radius: 5px;
+      padding-left: 10px;
+    }
+
+    h2 {
+      color: #0E7A82;
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    h4 {
+      color: #1D6C6A;
+      font-weight: 600;
+      border-left: 5px solid #1D6C6A;
+      padding-left: 10px;
+    }
+
+    .topbar h4{
+      color: white;
+      border-left: 5px solid #0E7A82;
+    }
+
+    .card {
+      border: none;
+      border-radius: 12px;
+      transition: 0.3s;
+    }
+
+    .card:hover {
+      transform: scale(1.02);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .card-title {
+      font-weight: 600;
+    }
+
+    /* Print adjustments */
+    @media print {
+      .no-print {
+        display: none !important;
+      }
+
+      body {
+        background: white !important;
+        color: black !important;
+      }
+
+      .card {
+        page-break-inside: avoid;
+        border: 1px solid #ddd !important;
+      }
+
+      h2, h4 {
+        color: black !important;
+      }
+    }
+
+    /* Floating print button */
+    #print-btn {
+      top: 100px;
+      right: 20px;
+      z-index: 1000;
+    }
+  </style>
+</head>
+
+<body class="bg-light">
+  <div class="container-fluid">
+    <div class="row">
+
+      <!-- Top Bar -->
+      <div class="topbar">
+        <div class="col-12 p-3 text-white d-flex justify-content-between align-items-center">
+          <h4 class="mb-0">Admin Appointment</h4>
+          <button class="btn btn-outline-light" data-bs-toggle="offcanvas" data-bs-target="#sidebar" aria-controls="sidebar">
+            ☰ Menu
+          </button>
+        </div>
+      </div>
+
+      <!-- Sidebar -->
+      <div class="offcanvas offcanvas-start bg-dark text-white d-flex flex-column" tabindex="-1" id="sidebar">
+        <div class="offcanvas-header">
+          <h5 class="offcanvas-title">Admin Menu</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"></button>
+        </div>
+
+        <div class="offcanvas-body d-flex flex-column flex-grow-1">
+          <ul class="nav flex-column mb-auto">
+            <li class="nav-item mb-2"><a href="/homeadmin" class="nav-link text-white">🏠 Dashboard</a></li>
+            <li class="nav-item mb-2"><a href="/admindoctor" class="nav-link text-white">👨‍⚕️ Manage Doctors</a></li>
+            <li class="nav-item mb-2"><a href="/adminappointment" class="nav-link text-white active fw-bold">📅 Manage Appointments</a></li>
+            <li class="nav-item mb-2"><a href="/adminpatient" class="nav-link text-white">🧍 Manage Patients</a></li>
+            <li class="nav-item mb-2"><a href="/admincategory" class="nav-link text-white">📋 Manage Categories</a></li>
+          </ul>
+
+          <div class="mt-auto">
+            <a href="/logout" class="btn btn-danger w-100">🚪 Log Out</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Main Content -->
+      <div class="col-12 p-4">
+
+        <div class="no-print text-end mb-3">
+          <button id="print-btn" type=""class="btn btn-outline-secondary" onclick="window.print()">
+            🖨️ Print Appointments
+          </button>
+        </div>
+
+        <h2>Admin Appointment Management</h2>
+
+        <!-- Scheduled Appointments -->
+        <h4 class="mb-3">Pending Approvals</h4>
+        <div class="row g-3 mb-5" id="apt-list"></div>
+
+        <!-- Finished Appointments -->
+        <h4 class="mb-3">Completed / Cancelled</h4>
+        <div class="row g-3" id="finish-list"></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const apt = JSON.parse('<!--APPOINTMENT_DATA-->');
+    const list = document.getElementById("apt-list");
+    const finish = document.getElementById("finish-list");
+
+    list.innerHTML = "";
+    finish.innerHTML = "";
+
+    apt.forEach(elm => {
+      if (elm.status === "SCHEDULE") {
+        list.innerHTML += `
+          <div class="col-md-6 col-lg-4">
+            <div class="card shadow-sm h-100 border-warning">
+              <div class="card-body">
+                <h5 class="card-title text-warning">Appointment #${elm.id_appointment}</h5>
+                <p><strong>Doctor:</strong> ${elm.Doctor.first_name} ${elm.Doctor.last_name}</p>
+                <p><strong>Patient:</strong> ${elm.Patient.first_name} ${elm.Patient.last_name}</p>
+                <p><strong>Queue:</strong> ${elm.queue}</p>
+                <p><strong>Date:</strong> ${elm.appointment_date}</p>
+                <p><strong>Time:</strong> ${elm.appointment_time}</p>
+                <p><strong>Note:</strong> ${elm.patient_note}</p>
+                <p><strong>Status:</strong> <span class="badge bg-warning text-dark">${elm.status}</span></p>
+                <p class="small text-muted mb-0">Created: ${elm.created_at}</p>
+                <p class="small text-muted">Updated: ${elm.last_updated_at}</p>
+              </div>
+              <div class="card-footer d-flex justify-content-end gap-2 no-print">
+                <form action="/adminappointment" method="POST" style="display:inline;">
+                  <input type="hidden" name="id_appointment" value="${elm.id_appointment}">
+                  <input type="hidden" name="status" value="FINISHED">
+                  <button type="submit" class="btn btn-success btn-sm">APPROVE</button>
+                </form>
+                <form action="/adminappointment" method="POST" style="display:inline;">
+                  <input type="hidden" name="id_appointment" value="${elm.id_appointment}">
+                  <input type="hidden" name="status" value="CANCELLED">
+                  <button type="submit" class="btn btn-danger btn-sm">CANCEL</button>
+                </form>
+              </div>
+            </div>
+          </div>
+        `;
+      } else {
+        finish.innerHTML += `
+          <div class="col-md-6 col-lg-4">
+            <div class="card shadow-sm h-100 border-success">
+              <div class="card-body">
+                <h5 class="card-title text-success">Appointment #${elm.id_appointment}</h5>
+                <p><strong>Doctor:</strong> ${elm.Doctor.first_name} ${elm.Doctor.last_name}</p>
+                <p><strong>Patient:</strong> ${elm.Patient.first_name} ${elm.Patient.last_name}</p>
+                <p><strong>Queue:</strong> ${elm.queue}</p>
+                <p><strong>Date:</strong> ${elm.appointment_date}</p>
+                <p><strong>Time:</strong> ${elm.appointment_time}</p>
+                <p><strong>Note:</strong> ${elm.patient_note}</p>
+                <p><strong>Status:</strong> <span class="badge bg-secondary">${elm.status}</span></p>
+                <p class="small text-muted mb-0">Created: ${elm.created_at}</p>
+                <p class="small text-muted">Updated: ${elm.last_updated_at}</p>
+              </div>
+            </div>
+          </div>
+        `;
+      }
+    });
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

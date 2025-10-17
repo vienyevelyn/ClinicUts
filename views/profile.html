@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Profile</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      background-color: #f8f9fa;
+      font-family: 'Segoe UI', sans-serif;
+      padding-top: 70px;
+    }
+
+    .navbar-custom {
+      background-color: #1D6C6A;
+      color: #fff;
+    }
+
+    .offcanvas.bg-dark {
+      background-color: #1D6C6A !important;
+    }
+    .offcanvas .nav-link {
+      color: #e9ecef;
+    }
+    .offcanvas .nav-link:hover {
+      color: #fff;
+      background-color: #006970;
+      border-radius: 5px;
+      padding-left: 10px;
+    }
+
+    .topbar {
+      position: fixed;
+      background-color: #0E7A82;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 1050;
+    }
+
+    .btn-outline-light {
+      border: 1px solid #fff;
+      color: #fff;
+    }
+    .btn-outline-light:hover {
+      background-color: #0E7A82;
+      border-color: #0E7A82;
+    }
+
+    .profile-card {
+      background-color: #73cfc7;
+      border-radius: 15px;
+      color: #fff;
+      padding: 30px;
+      margin-top: 30px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .profile-header {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      margin-bottom: 25px;
+    }
+
+    .profile-img {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid #fff;
+    }
+
+    .profile-info p {
+      font-size: 1rem;
+      color: #fff;
+      margin-bottom: 8px;
+    }
+
+    .profile-info strong {
+      color: #0E7A82;
+    }
+
+    .action-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 25px;
+    }
+
+    .btn {
+      border-radius: 8px;
+      font-weight: 500;
+      transition: all 0.2s ease-in-out;
+    }
+
+    .btn:hover {
+      transform: scale(1.05);
+    }
+
+    .btn-primary {
+      background-color: #0E7A82;
+      border: none;
+    }
+
+    .btn-primary:hover {
+      background-color: #1D6C6A;
+    }
+
+    .btn-danger {
+      background-color: #C82333;
+      border: none;
+    }
+
+    .btn-danger:hover {
+      background-color: #A71D2A;
+    }
+
+  </style>
+</head>
+<body class="bg-light">
+
+<div class="container-fluid">
+  <div class="row">
+
+    <!-- Top Bar -->
+    <div class="topbar">
+      <div class="col-12 p-3 text-white d-flex justify-content-between align-items-center">
+        <h4 class="mb-0">My Profile</h4>
+        <button class="btn btn-outline-light" data-bs-toggle="offcanvas" data-bs-target="#sidebar" aria-controls="sidebar">
+          ☰ Menu
+        </button>
+      </div>
+    </div>
+
+    <!-- Sidebar -->
+    <div class="offcanvas offcanvas-start bg-dark text-white d-flex flex-column" tabindex="-1" id="sidebar">
+      <div class="offcanvas-header">
+        <h5 class="offcanvas-title">Menu</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"></button>
+      </div>
+
+      <div class="offcanvas-body d-flex flex-column flex-grow-1">
+          <ul class="nav flex-column mb-auto">
+            <li class="nav-item mb-2"><a href="/home" class="nav-link text-white">🏠Home</a></li>
+            <li class="nav-item mb-2"><a href="/profile" class="nav-link text-white">🧍 Profile</a></li>
+            <li class="nav-item mb-2"><a href="/doctors" class="nav-link text-white">👨‍⚕️ Doctors</a></li>
+            <li class="nav-item mb-2"><a href="/appointmentlist" class="nav-link text-white">📋 Appointment List</a></li>
+            <li class="nav-item mb-2"><a href="/medicalrecord" class="nav-link text-white">📅 Medical Record</a></li>
+          </ul>
+
+        <!-- Bottom Buttons -->
+        <div class="mt-auto">
+          <a href="/logout" class="btn btn-danger w-100">Log Out</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="col-12 p-4">
+      <div class="profile-card shadow-sm">
+        <div class="profile-header">
+         
+          <div>
+            <h4 class="mb-0">{{first_name}} {{last_name}}</h4>
+            <p class="mb-0 text-light">Email: {{email}}</p>
+            <p class="mb-0 text-light">Phone: {{phone_number}}</p>
+          </div>
+        </div>
+
+        <div class="profile-info">
+          <p><strong>Address:</strong> {{address}}</p>
+          <p><strong>City of Birth:</strong> {{city_of_birth}}</p>
+          <p><strong>Birthdate:</strong> {{date_of_birth}}</p>
+          <p><strong>Gender:</strong> {{gender}}</p>
+          <p><strong>Blood Type:</strong> {{blood_type}}</p>
+        </div>
+
+        <div class="action-buttons">
+          <a href="/profile/edit" class="btn btn-primary">Edit Profile</a>
+          <form action="/profile/delete" method="POST"
+            onsubmit="return confirm('Are you sure you want to delete your account? This action cannot be undone.');"
+            style="display:inline;">
+            <button type="submit" class="btn btn-danger">Delete Account</button>
+          </form>
+          <a href="/home" class="btn btn-secondary">Back to Home</a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

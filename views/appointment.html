@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create Appointment</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      background-color: #f8f9fa;
+      font-family: 'Segoe UI', sans-serif;
+      padding-top: 70px;
+    }
+
+    .topbar {
+      position: fixed;
+      background-color: #0E7A82;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 1050;
+    }
+
+    .btn-outline-light {
+      border: 1px solid #fff;
+      color: #fff;
+    }
+
+    .btn-outline-light:hover {
+      background-color: #0E7A82;
+      border-color: #0E7A82;
+    }
+
+    .offcanvas.bg-dark {
+      background-color: #1D6C6A !important;
+    }
+
+    .offcanvas .nav-link {
+      color: #e9ecef;
+    }
+
+    .offcanvas .nav-link:hover {
+      color: #fff;
+      background-color: #006970;
+      border-radius: 5px;
+      padding-left: 10px;
+    }
+
+    .form-section {
+      background: linear-gradient(135deg, #73cfc7, #3d9b91);
+      border-radius: 15px;
+      padding: 30px;
+      color: #fff;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+      margin-top: 30px;
+    }
+
+    h2 {
+      text-align: center;
+      font-weight: 700;
+      color: #0E7A82;
+      margin-bottom: 30px;
+    }
+
+    label {
+      font-weight: 600;
+      color: #fff;
+    }
+
+    input, select {
+      border-radius: 8px;
+      border: none;
+      padding: 10px;
+    }
+
+    input:focus, select:focus {
+      box-shadow: 0 0 5px rgba(14, 122, 130, 0.4);
+      outline: none;
+    }
+
+    .btn-primary {
+      background-color: #0E7A82;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      width: 100%;
+      transition: all 0.2s ease-in-out;
+    }
+
+    .btn-primary:hover {
+      background-color: #1D6C6A;
+      transform: scale(1.05);
+    }
+
+  </style>
+</head>
+<body class="bg-light">
+
+<div class="container-fluid">
+  <div class="row">
+
+    <!-- Top Bar -->
+    <div class="topbar">
+      <div class="col-12 p-3 text-white d-flex justify-content-between align-items-center">
+        <h4 class="mb-0">Create Appointment</h4>
+        <button class="btn btn-outline-light" data-bs-toggle="offcanvas" data-bs-target="#sidebar" aria-controls="sidebar">
+          ☰ Menu
+        </button>
+      </div>
+    </div>
+
+    <!-- Sidebar -->
+    <div class="offcanvas offcanvas-start bg-dark text-white d-flex flex-column" tabindex="-1" id="sidebar">
+      <div class="offcanvas-header">
+        <h5 class="offcanvas-title">Menu</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"></button>
+      </div>
+
+      <div class="offcanvas-body d-flex flex-column flex-grow-1">
+          <ul class="nav flex-column mb-auto">
+            <li class="nav-item mb-2"><a href="/home" class="nav-link text-white">🏠Home</a></li>
+            <li class="nav-item mb-2"><a href="/profile" class="nav-link text-white">🧍 Profile</a></li>
+            <li class="nav-item mb-2"><a href="/doctors" class="nav-link text-white">👨‍⚕️ Doctors</a></li>
+            <li class="nav-item mb-2"><a href="/appointmentlist" class="nav-link text-white">📋 Appointment List</a></li>
+            <li class="nav-item mb-2"><a href="/medicalrecord" class="nav-link text-white">📅 Medical Record</a></li>
+          </ul>
+
+        <!-- Bottom Buttons -->
+        <div class="mt-auto">
+          <a href="/logout" class="btn btn-danger w-100">Log Out</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="col-12 p-4">
+      <h2>Create New Appointment</h2>
+
+      <div class="form-section">
+        <form id="appointmentForm" method="post" action="/createappointment">
+          <input type="hidden" class="form-control" id="id_doctor" name="id_doctor" required>
+          <input type="hidden" class="form-control" id="id_patient" name="id_patient" required>
+
+          <div class="mb-3">
+            <label for="nama_doctor" class="form-label">Doctor’s Name</label>
+            <input type="text" class="form-control" id="nama_doctor" name="nama_doctor" disabled>
+          </div>
+
+          <div class="mb-3">
+            <label for="appointment_date" class="form-label">Date</label>
+            <input type="date" class="form-control" id="appointment_date" name="appointment_date" required>
+          </div>
+
+          <div class="mb-3">
+            <label for="appointment_time" class="form-label">Time</label>
+            <select class="form-select" id="appointment_time" name="appointment_time" required>
+              <option value="default" selected>-- Select a time --</option>
+              <option value="09:00">09:00 AM</option>
+              <option value="13:00">01:00 PM</option>
+              <option value="16:00">04:00 PM</option>
+            </select>
+          </div>
+
+          <div class="mb-3">
+            <label for="patient_note" class="form-label">Describe your symptoms</label>
+            <input type="text" class="form-control" id="patient_note" name="patient_note" placeholder="Headache, nausea, etc.">
+          </div>
+
+          <button type="submit" class="btn btn-primary mt-3">Create Appointment</button>
+        </form>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  const doctor = JSON.parse('<!--DOCTOR_DATA-->');
+  const patient = JSON.parse('<!--PATIENT_DATA-->');
+  const input = document.getElementById("nama_doctor");
+  const id_doctor = document.getElementById("id_doctor");
+  const id_patient = document.getElementById("id_patient");
+
+  input.value = doctor.first_name + " " + doctor.last_name;
+  id_doctor.value = doctor.id_doctor;
+  input.disabled = true;
+  id_patient.value = patient.id_patient;
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

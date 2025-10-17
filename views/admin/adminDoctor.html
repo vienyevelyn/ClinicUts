@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Doctor Management</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <style>
+    body {
+      background-color: #f8f9fa;
+      font-family: 'Segoe UI', sans-serif;
+      padding-top: 70px;
+    }
+
+    /* Topbar */
+    .topbar {
+      position: fixed;
+      background-color: #0E7A82;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 1050;
+    }
+
+    .btn-outline-light {
+      border: 1px solid #fff;
+      color: #fff;
+    }
+
+    .btn-outline-light:hover {
+      background-color: #0E7A82;
+      border-color: #0E7A82;
+    }
+
+    /* Sidebar */
+    .offcanvas.bg-dark {
+      background-color: #1D6C6A !important;
+    }
+
+    .offcanvas .nav-link {
+      color: #e9ecef;
+      transition: all 0.2s;
+    }
+
+    .offcanvas .nav-link:hover {
+      color: #fff;
+      background-color: #006970;
+      border-radius: 5px;
+      padding-left: 10px;
+    }
+
+    /* Main Content */
+    h2 {
+      color: #0E7A82;
+      font-weight: 700;
+      margin-bottom: 20px;
+    }
+
+    .card {
+      border-radius: 12px;
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08);
+      border: none;
+    }
+
+    .card-header {
+      background-color: #1D6C6A;
+      color: white;
+      font-weight: 600;
+      border-top-left-radius: 12px !important;
+      border-top-right-radius: 12px !important;
+    }
+
+    .btn-primary {
+      background-color: #1D6C6A;
+      border: none;
+    }
+
+    .btn-primary:hover {
+      background-color: #0E7A82;
+    }
+
+    .btn-warning {
+      color: #fff;
+      background-color: #f0ad4e;
+      border: none;
+    }
+
+    .btn-warning:hover {
+      background-color: #e49b34;
+    }
+
+    table th {
+      background-color: #0E7A82 !important;
+      color: white;
+      text-align: center;
+    }
+
+    table td {
+      vertical-align: middle;
+      text-align: center;
+    }
+
+    label.form-label {
+      color: #0E7A82;
+      font-weight: 500;
+    }
+
+    .modal-header {
+      background-color: #1D6C6A;
+      color: white;
+    }
+
+    .modal-footer .btn-secondary {
+      background-color: #ccc;
+      border: none;
+    }
+       #print-btn {
+      top: 300px;
+      right: 20px;
+      z-index: 1000;
+    }
+    @media print {
+      .no-print {
+        display: none !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container-fluid">
+    <div class="row">
+
+      <!-- Top Bar -->
+      <div class="topbar">
+        <div class="col-12 p-3 text-white d-flex justify-content-between align-items-center">
+          <h4 class="mb-0">Admin – Doctor Management</h4>
+          <button class="btn btn-outline-light" data-bs-toggle="offcanvas" data-bs-target="#sidebar" aria-controls="sidebar">
+            ☰ Menu
+          </button>
+        </div>
+      </div>
+
+      <!-- Sidebar -->
+      <div class="offcanvas offcanvas-start bg-dark text-white d-flex flex-column" tabindex="-1" id="sidebar">
+        <div class="offcanvas-header">
+          <h5 class="offcanvas-title">Admin Menu</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"></button>
+        </div>
+
+        <div class="offcanvas-body d-flex flex-column flex-grow-1">
+          <ul class="nav flex-column mb-auto">
+            <li class="nav-item mb-2"><a href="/homeadmin" class="nav-link text-white">🏠 Dashboard</a></li>
+            <li class="nav-item mb-2"><a href="/admindoctor" class="nav-link text-white active fw-bold">👨‍⚕️ Manage Doctors</a></li>
+            <li class="nav-item mb-2"><a href="/adminappointment" class="nav-link text-white">📅 Manage Appointments</a></li>
+            <li class="nav-item mb-2"><a href="/adminpatient" class="nav-link text-white">🧍 Manage Patients</a></li>
+            <li class="nav-item mb-2"><a href="/admincategory" class="nav-link text-white">📋 Manage Categories</a></li>
+          </ul>
+
+          <div class="mt-auto">
+            <a href="/logout" class="btn btn-danger w-100">🚪 Log Out</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Main Content -->
+      <div class="col-12 p-4">
+         <div class="no-print text-end mb-3">
+          <button id="print-btn" type=""class="btn btn-outline-secondary" onclick="window.print()">
+            🖨️ Print Appointments
+          </button>
+        </div>
+
+        <h2>Doctor Management</h2>
+
+        <button type="button" class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#addDoctorModal">
+          ➕ Add Doctor
+        </button>
+
+        <div class="row align-items-end mb-4">
+          <div class="col-md-4">
+            <label for="category-list" class="form-label fw-semibold">Filter by Category</label>
+            <select id="category-list" class="form-select"></select>
+          </div>
+          <div class="col-md-4">
+            <label for="doctorInput" class="form-label fw-semibold">Search Doctor</label>
+            <input id="doctorInput" type="text" class="form-control" placeholder="Enter doctor name">
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">Doctor List</div>
+          <div class="card-body">
+            <table class="table table-bordered table-striped align-middle">
+              <thead>
+                <tr>
+                  <th>Doctor ID</th>
+                  <th>Category</th>
+                  <th>First Name</th>
+                  <th>Last Name</th>
+                  <th>Gender</th>
+                  <th>Degree</th>
+                  <th>Experience</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="tbody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Add Doctor Modal -->
+  <div class="modal fade" id="addDoctorModal" tabindex="-1" aria-labelledby="addDoctorModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <form action="/admindoctor" method="POST">
+          <div class="modal-header">
+            <h5 class="modal-title">Add Doctor</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+          <div class="modal-body">
+            <div class="row mb-3">
+              <div class="col">
+                <label class="form-label">Category</label>
+                <select class="form-select select-category" name="category" required></select>
+              </div>
+              <div class="col">
+                <label class="form-label">First Name</label>
+                <input type="text" class="form-control" name="first_name" required>
+              </div>
+              <div class="col">
+                <label class="form-label">Last Name</label>
+                <input type="text" class="form-control" name="last_name" required>
+              </div>
+            </div>
+            <div class="row mb-3">
+              <div class="col">
+                <label class="form-label">Gender</label>
+                <select class="form-select" name="gender" required>
+                  <option value="">Select Gender</option>
+                  <option value="Male">Male</option>
+                  <option value="Female">Female</option>
+                </select>
+              </div>
+              <div class="col">
+                <label class="form-label">Degree</label>
+                <input type="text" class="form-control" name="degree" required>
+              </div>
+              <div class="col">
+                <label class="form-label">Experience (Years)</label>
+                <input type="number" class="form-control" name="experience" required>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-primary">Add Doctor</button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Update Doctor Modal -->
+  <div class="modal fade" id="updateDoctorModal1" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <form action="/updateadmindoctor" method="POST">
+          <div class="modal-header">
+            <h5 class="modal-title">Update Doctor</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+          <div class="modal-body">
+            <div class="row mb-3">
+              <div class="col">
+                <label class="form-label">Category</label>
+                <select class="form-select select-category" name="category" required></select>
+              </div>
+              <div class="col">
+                <label class="form-label">First Name</label>
+                <input type="text" class="form-control" id="editFN" name="first_name" required>
+              </div>
+              <div class="col">
+                <input type="hidden" id="id_doctor" name="id_doctor">
+              </div>
+              <div class="col">
+                <label class="form-label">Last Name</label>
+                <input type="text" class="form-control" id="editLN" name="last_name" required>
+              </div>
+            </div>
+            <div class="row mb-3">
+              <div class="col">
+                <label class="form-label">Gender</label>
+                <select class="form-select" id="EditGender" name="gender" required>
+                  <option value="Male">Male</option>
+                  <option value="Female">Female</option>
+                </select>
+              </div>
+              <div class="col">
+                <label class="form-label">Degree</label>
+                <input type="text" class="form-control" id="editDegree" name="degree" required>
+              </div>
+              <div class="col">
+                <label class="form-label">Experience (Years)</label>
+                <input type="number" class="form-control" id="editExp" name="experience" required>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-warning">Update Doctor</button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Your JavaScript stays identical -->
+  <script>
+    const categories = JSON.parse('<!--CATEGORY_DATA-->');
+    const doctors = JSON.parse('<!--DOCTOR_DATA-->');
+    const container = document.getElementById("tbody");
+    const select = document.querySelectorAll(".select-category");
+
+    select.forEach(s => {
+      s.innerHTML += `<option value="default" selected>Select category</option>`;
+      categories.forEach(elm => {
+        s.innerHTML += `<option value=${elm.id_category}>${elm.name}</option>`;
+      });
+    });
+
+    const input = document.getElementById("doctorInput");
+    const select2 = document.getElementById("category-list");
+    select2.innerHTML += `<option value="default" selected>Option</option>`;
+    categories.forEach(elm => {
+      select2.innerHTML += `<option value=${elm.name}>${elm.name}</option>`;
+    });
+
+    function showDoctor(data) {
+      container.innerHTML = "";
+      data.forEach(elm => {
+        container.innerHTML += `
+          <tr>
+            <td>${elm.id_doctor}</td>
+            <td>${elm.Category.name}</td>
+            <td>${elm.first_name}</td>
+            <td>${elm.last_name}</td>
+            <td>${elm.gender}</td>
+            <td>${elm.degree}</td>
+            <td>${elm.experience}</td>
+            <td>
+              <button type="button" class="btn btn-sm btn-warning btnedit" data-bs-toggle="modal" data-bs-target="#updateDoctorModal1" data-id="${elm.id_doctor}" data-category="${elm.id_category}">
+                Edit
+              </button>
+              <a href="admindoctor/delete/${elm.id_doctor}" class="btn btn-danger btn-sm">Delete</a>
+            </td>
+          </tr>`;
+      });
+
+      const btnedit = document.querySelectorAll(".btnedit");
+      const editFN = document.getElementById("editFN");
+      const editLN = document.getElementById("editLN");
+      const id_doctor = document.getElementById("id_doctor");
+      const EditGender = document.getElementById("EditGender");
+      const editDegree = document.getElementById("editDegree");
+      const editExp = document.getElementById("editExp");
+
+      btnedit.forEach(s => {
+        s.addEventListener("click", (e) => {
+          const doctorId = e.target.getAttribute("data-id");
+          const doctorCat = e.target.getAttribute("data-category");
+          const doc = doctors.find(d => d.id_doctor == doctorId);
+
+          id_doctor.value = doctorId;
+          editFN.value = doc.first_name;
+          editLN.value = doc.last_name;
+          EditGender.value = doc.gender;
+          editDegree.value = doc.degree;
+          editExp.value = doc.experience;
+          select[1].value = doctorCat;
+        });
+      });
+    }
+
+    showDoctor(doctors);
+
+    input.addEventListener("input", () => {
+      const name = input.value.toLowerCase();
+      const filtered = doctors.filter(d => `${d.first_name} ${d.last_name}`.toLowerCase().includes(name));
+      showDoctor(filtered);
+    });
+
+    select2.addEventListener("change", function() {
+      if (select2.value == "default") showDoctor(doctors);
+      else {
+        const value = select2.options[select2.selectedIndex].value.toLowerCase();
+        const filtered = doctors.filter(d => d.Category.name.toLowerCase().includes(value));
+        showDoctor(filtered);
+      }
+    });
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

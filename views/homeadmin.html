@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Home</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <style>
+    body {
+      background-color: #f8f9fa;
+      font-family: 'Segoe UI', sans-serif;
+      padding-top: 70px;
+    }
+
+    /* Topbar */
+    .topbar {
+      position: fixed;
+      background-color: #0E7A82;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 1050;
+    }
+
+    .btn-outline-light {
+      border: 1px solid #fff;
+      color: #fff;
+    }
+
+    .btn-outline-light:hover {
+      background-color: #0E7A82;
+      border-color: #0E7A82;
+    }
+
+    /* Sidebar */
+    .offcanvas.bg-dark {
+      background-color: #1D6C6A !important;
+    }
+
+    .offcanvas .nav-link {
+      color: #e9ecef;
+      transition: all 0.2s;
+    }
+
+    .offcanvas .nav-link:hover {
+      color: #fff;
+      background-color: #006970;
+      border-radius: 5px;
+      padding-left: 10px;
+    }
+
+    /* Main Content */
+    .content-box {
+      background-color: #73cfc7;
+      border-radius: 12px;
+      padding: 30px;
+      margin-top: 20px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      color: #fff;
+      text-align: center;
+    }
+
+    h1 {
+      color: #0E7A82;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .lead {
+      color: #444;
+    }
+
+    .btn-custom {
+      border-radius: 8px;
+      transition: 0.2s;
+      font-weight: 500;
+    }
+
+    .btn-custom:hover {
+      transform: scale(1.05);
+      opacity: 0.9;
+    }
+  </style>
+</head>
+
+<body class="bg-light">
+  <div class="container-fluid">
+    <div class="row">
+
+      <!-- Top Bar -->
+      <div class="topbar">
+        <div class="col-12 p-3 text-white d-flex justify-content-between align-items-center">
+          <h4 class="mb-0">Admin Dashboard</h4>
+          <button class="btn btn-outline-light" data-bs-toggle="offcanvas" data-bs-target="#sidebar" aria-controls="sidebar">
+            ☰ Menu
+          </button>
+        </div>
+      </div>
+
+      <!-- Sidebar -->
+      <div class="offcanvas offcanvas-start bg-dark text-white d-flex flex-column" tabindex="-1" id="sidebar">
+        <div class="offcanvas-header">
+          <h5 class="offcanvas-title">Admin Menu</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"></button>
+        </div>
+
+        <div class="offcanvas-body d-flex flex-column flex-grow-1">
+          <ul class="nav flex-column mb-auto">
+            <li class="nav-item mb-2"><a href="/homeadmin" class="nav-link text-white">🏠 Dashboard</a></li>
+            <li class="nav-item mb-2"><a href="/admindoctor" class="nav-link text-white">👨‍⚕️ Manage Doctors</a></li>
+            <li class="nav-item mb-2"><a href="/adminappointment" class="nav-link text-white">📅 Manage Appointments</a></li>
+            <li class="nav-item mb-2"><a href="/adminpatient" class="nav-link text-white">🧍 Manage Patients</a></li>
+            <li class="nav-item mb-2"><a href="/admincategory" class="nav-link text-white">📋 Manage Categories</a></li>
+          </ul>
+
+          <div class="mt-auto">
+            <a href="/logout" class="btn btn-danger w-100">🚪 Log Out</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Main Content -->
+      <div class="col-12 p-4">
+        <div class="content-box shadow-sm">
+          <h1>Welcome, Admin</h1>
+          <p class="lead">Manage doctors, appointments, patients, and categories all in one place.</p>
+          <hr>
+          <div class="d-flex flex-wrap justify-content-center gap-3 mt-3">
+            <a href="/admindoctor" class="btn btn-primary btn-custom px-4">Manage Doctors</a>
+            <a href="/adminappointment" class="btn btn-success btn-custom px-4">Manage Appointments</a>
+            <a href="/adminpatient" class="btn btn-warning btn-custom text-white px-4">Manage Patients</a>
+            <a href="/admincategory" class="btn btn-info btn-custom text-white px-4">Manage Categories</a>
+            <a href="/logout" class="btn btn-danger btn-custom px-4">Logout</a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
