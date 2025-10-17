@@ -456,7 +456,7 @@ const server = http.createServer((req, res) => {
                         res.writeHead(400, {"Content-Type": "text/plain"});
                         return res.end("Error: Semua harus diisi!");
                     } 
-                    const dob = new Date(dobInput);
+                    const dob = new Date(formData.get("date_of_birth"));
 
                     const today = new Date();
                     const minDate = new Date();
