@@ -581,9 +581,9 @@ const server = http.createServer((req, res) => {
                         const today = new Date();
                         today.setHours(0, 0, 0, 0);
                         const minDate = new Date(today);
-                        minDate.setDate(today.getDate());
+                        minDate.setDate(today.getDate() + 1);
 
-                        if (appointmentDate <= minDate) {
+                        if (appointmentDate < minDate) {
                             res.writeHead(403, { "Content-Type": "text/html" });
                             res.end(`
                                 <script>
