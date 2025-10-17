@@ -576,7 +576,8 @@ const server = http.createServer((req, res) => {
                             res.writeHead(400, {"Content-Type": "text/plain"});
                             return res.end("Error: Semua harus diisi!");
                         }
-                        const appointmentDate = new Date(formData.appointment_date);
+                        const [year, month, day] = formData.appointment_date.split("-").map(Number);
+                        const appointmentDate = new Date(year, month - 1, day)
 
                         const today = new Date();
                         today.setHours(0, 0, 0, 0);
