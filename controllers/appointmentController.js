@@ -118,7 +118,7 @@ async function updateStatus(data) {
     try{
         const updated = await Appointment.update({
             status: data.status,
-            last_updated_at: new Date().toLocaleDateString('en-CA')
+            last_updated_at: new Date()
         },
         {
             where: {
