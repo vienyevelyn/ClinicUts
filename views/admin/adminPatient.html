@@ -365,15 +365,6 @@
 </div>
 
   <script>
-
-    function formatDateForInput(date) {
-  const d = new Date(date);
-  const year = d.getFullYear();
-  const month = String(d.getMonth() + 1).padStart(2, '0');
-  const day = String(d.getDate()).padStart(2, '0');
-  return `${year}-${month}-${day}`;
-}
-
     const patients = JSON.parse('<!--PATIENT_DATA-->');
     const input = document.getElementById("patientInput");
     const tbody = document.getElementById('patient-body');
@@ -381,7 +372,12 @@
     function showPatient(data) {
       tbody.innerHTML = '';
       data.forEach(p => {
-   
+        let dateObj = new Date(p.date_of_birth)
+
+      let formattedDate = 
+  dateObj.getDate() + '/' + 
+  (dateObj.getMonth() + 1) + '/' + 
+  dateObj.getFullYear();
 
         tbody.innerHTML += `
           <tr>
@@ -390,7 +386,7 @@
             <td>${p.last_name}</td>
             <td>${p.gender || '-'}</td>
             <td>${p.city_of_birth || '-'}</td>
-            <td>${formatDateForInput(p.date_of_birth) || '-'}</td>
+            <td>${formattedDate || '-'}</td>
             <td>${p.blood_type || '-'}</td>
             <td>${p.condition}</td>
             <td>
@@ -417,6 +413,14 @@
       const editAddress = document.getElementById('editAddress');
       const editCondition = document.getElementById('editCondition');
 
+      function formatDateForInput(date) {
+  if (!date) return '';
+  const d = new Date(date);
+  const year = d.getFullYear();
+  const month = String(d.getMonth() + 1).padStart(2, '0');
+  const day = String(d.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`; // YYYY-MM-DD
+}
      
       editButtons.forEach(btn => {
         btn.addEventListener('click', e => {
@@ -436,7 +440,7 @@
           editLN.value = patient.last_name;
           editGender.value = patient.gender;
           editCity.value = patient.city_of_birth;
-          editDOB.value = formatDateForInput(p.date_of_birth);
+          editDOB.value = formatDateForInput(patient.date_of_birth);
           editBlood.value = patient.blood_type;
           editAddress.value = patient.address;
           editCondition.value = patient.condition;
