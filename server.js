@@ -1134,7 +1134,7 @@ const server = http.createServer((req, res) => {
                         if(!formData.city_of_birth || !formData.date_of_birth || !formData.address ||  !formData.first_name || !formData.last_name  || !formData.gender || !formData.blood_type || !formData.condition){
                             res.writeHead(400, {"Content-Type": "text/plain"});
                             return res.end("Error: Semua harus diisi!");
-                        }
+                    }  
                         try{
                             userController.createUserPatient(formData).then(apt =>{
                                 console.log(apt);
