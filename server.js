@@ -30,7 +30,6 @@ sequelize.sync().then((result)=>{
 const http = require("http");
 const fs = require("fs");
 const path = require("path");
-const url = require("url");
 
 const PORT = process.env.PORT || 3000;
 
@@ -916,7 +915,7 @@ const server = http.createServer((req, res) => {
                 if(user.role === "admin"){
                     fs.readFile(path.join(__dirname, "views/admin", "admindoctor.html"), (err, data) => {
                         if (err) {
-                            console.log("Gagal memanggil view");
+                            console.log("Gagal memanggil view" + err);
                             res.writeHead(500, {"Content-Type":"text/plain"});
                             res.end("Gagal mengambil view");
                         } 
