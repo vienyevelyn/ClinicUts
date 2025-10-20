@@ -1150,7 +1150,7 @@ const server = http.createServer((req, res) => {
 
                                 patientController.getAllPatient().then(pt=> {
                                     const html = data.toString().replace("<!--PATIENT_DATA-->", JSON.stringify(pt))
-                                                res.writeHead(200, {"Content-Type":"text/html"});
+                                        res.writeHead(200, {"Content-Type":"text/html"});
                                     res.end(html);
                                 })
 
