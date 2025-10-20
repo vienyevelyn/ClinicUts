@@ -1019,9 +1019,13 @@ const server = http.createServer((req, res) => {
                     req.on("end", ()=>{
                         const formData = querystring.parse(body);
                         console.log(body);
-                        if(formData.category === "default" || !formData.first_name || !formData.last_name ||!formData.experience || formData.experience < 2 || !formData.gender ||!formData.degree){
+                        if(formData.category === "default" || !formData.first_name || !formData.last_name ||!formData.experience || !formData.gender ||!formData.degree){
                             res.writeHead(400, {"Content-Type": "text/plain"});
-                            return res.end("Error: Semua harus diisi! dan dokter harus minimal lebih dari 2 tahun");
+                            return res.end("Error: Semua harus diisi!");
+                        }
+                        if(formData.experience < 2 || formData > 50){
+                            res.writeHead(400, {"Content-Type": "text/plain"});
+                            return res.end("Error: dokter harus minimal lebih dari 2 tahun dan maksimal tidak lebih dari 50");
                         }
                         try{
                             userController.createUserDoctor(formData).then(apt =>{
@@ -1062,7 +1066,11 @@ const server = http.createServer((req, res) => {
                         const formData = querystring.parse(body);
                         if(formData.category === "default" || !formData.first_name || !formData.last_name ||!formData.experience || formData.experience < 2  || !formData.gender ||!formData.degree) {
                             res.writeHead(400, {"Content-Type": "text/plain"});
-                            return res.end("Error: Semua harus diisi dan dokter harus minimal lebih dari 2 tahun!");
+                            return res.end("Error: Semua harus diisi");
+                        }
+                        if(formData.experience < 2 || formData > 50){
+                            res.writeHead(400, {"Content-Type": "text/plain"});
+                            return res.end("Error: dokter harus minimal lebih dari 2 tahun dan maksimal tidak lebih dari 50");
                         }
                         try {
                             doctorController.updateDoctor(formData).then(apt => {
