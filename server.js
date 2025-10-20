@@ -1027,8 +1027,8 @@ const server = http.createServer((req, res) => {
                             res.writeHead(403, { "Content-Type": "text/html"});
                     res.end(`
                             <script>
-                            alert("dokter harus minimal lebih dari 2 tahun dan maksimal tidak lebih dari 50");
-                            window.location.href = "/";
+                            alert("dokter harus minimal 2 tahun dan maksimal 50");
+                            window.location.href = "/admindoctor";
                             </script>`);
                             return
                         }
@@ -1077,8 +1077,8 @@ const server = http.createServer((req, res) => {
                             res.writeHead(403, { "Content-Type": "text/html"});
                     res.end(`
                             <script>
-                            alert("dokter harus minimal lebih dari 2 tahun dan maksimal tidak lebih dari 50");
-                            window.location.href = "/";
+                            alert("dokter harus minimal 2 tahun dan maksimal 50");
+                            window.location.href = "/admindoctor";
                             </script>`);
                             return
                         }
