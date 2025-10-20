@@ -1023,7 +1023,7 @@ const server = http.createServer((req, res) => {
                             res.writeHead(400, {"Content-Type": "text/plain"});
                             return res.end("Error: Semua harus diisi!");
                         }
-                        if(formData.experience < 2 || formData > 50){
+                        if(Number(formData.experience) < 2 || Number(formData.experience) > 50){
                             res.writeHead(403, { "Content-Type": "text/html"});
                     res.end(`
                             <script>
@@ -1073,7 +1073,7 @@ const server = http.createServer((req, res) => {
                             res.writeHead(400, {"Content-Type": "text/plain"});
                             return res.end("Error: Semua harus diisi");
                         }
-                        if(formData.experience < 2 || formData > 50){
+                        if(Number(formData.experience) < 2 || Number(formData.experience) > 50){
                             res.writeHead(403, { "Content-Type": "text/html"});
                     res.end(`
                             <script>
